@@ -1,0 +1,14 @@
+/* main.css */
+    body,
+    html {
+        background: #e5137a; / hot pink /
+    }
+    .main {
+        width: 80%;
+        margin: auto;
+        color: white;
+        text-align: center;
+    }
+    .mega {
+        font-size: 3em;
+    }
