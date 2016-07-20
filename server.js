@@ -42,6 +42,27 @@ app.get('/scrape', function(req, res){
 
       console.log(json);
 
+      // s3 credentials set as evironment vars
+
+      const s3 = new AWS.S3();
+      const bucketName = '[thepollenreport]';
+      const keyName = 'pollen.json'
+
+      const params = {
+        Bucket: bucketName,
+        Key: keyName,
+        Body: JSON.stringify(json, null, 4),
+        ACL: 'public-read',
+      };
+
+      s3.putObject(params, function(err, data){
+        if (err) {
+          console.log(err);
+        } else {
+          console.log('Successful uploaded data to' + bucketName + '/' + keyName);
+        }
+      });
+
       res.send('Updated pollen count.');
     } else {
       res.send(error);

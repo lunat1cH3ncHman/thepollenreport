@@ -6,6 +6,7 @@
   "main": "server.js",
   "author": "Johnny Cullan",
   "dependencies": {
+    "aws-sdk": "^2.4.8",
     "cheerio": "^0.20.0",
     "express": "^4.14.0",
     "request": "^2.73.0"
