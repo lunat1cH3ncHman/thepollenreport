@@ -1,4 +1,5 @@
 // main.js
+/* eslint-disable no-undef */
 $(document).ready(function() {
 
     // find the URL of your JSON file on AWS - it'll be in your bucket
@@ -9,7 +10,7 @@ $(document).ready(function() {
     // Once we have the data, we parse it to find the pollen count
     .done(function(data) {
         data = JSON.parse(data);
-        var pollen = data.count;
+        const pollen = data.count;
 
         // update the <h1 class="mega"> with the pollen count
         $('.mega').text(pollen);
@@ -23,5 +24,5 @@ $(document).ready(function() {
 
     .always(function() {
         // if you're using a loading gif, this is where you'd hide it
-    })
+    });
 });
