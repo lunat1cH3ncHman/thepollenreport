@@ -8,6 +8,7 @@
 const express = require('express');
 const request = require('request');
 const cheerio = require('cheerio');
+const AWS = require('aws-sdk');
 
 const port = process.env.PORT || 3000;
 
@@ -45,14 +46,14 @@ app.get('/scrape', function(req, res){
       // s3 credentials set as evironment vars
 
       const s3 = new AWS.S3();
-      const bucketName = '[thepollenreport]';
-      const keyName = 'pollen.json'
+      const bucketName = 'thepollenreport';
+      const keyName = 'pollen.json';
 
       const params = {
         Bucket: bucketName,
         Key: keyName,
         Body: JSON.stringify(json, null, 4),
-        ACL: 'public-read',
+        ACL: 'public-read'
       };
 
       s3.putObject(params, function(err, data){
