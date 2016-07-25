@@ -1,13 +1,14 @@
 // server.js
 // Load all modules
 
-// TODO: AllowedOrigin line in S3 bucket
+// TODO: adjsut  AllowedOrigin in S3 bucket
 
 
 const express = require('express');
 const request = require('request');
 const cheerio = require('cheerio');
 const AWS = require('aws-sdk');
+const postgres = require('pg');
 
 const port = process.env.PORT || 3000;
 
@@ -19,6 +20,8 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res) {
   res.render('index'); // Serve the frontend
 });
+
+
 
 app.get('/scrape', function(req, res){
 
