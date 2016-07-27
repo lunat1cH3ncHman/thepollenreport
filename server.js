@@ -9,6 +9,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 const AWS = require('aws-sdk');
 const postgres = require('pg');
+const bodyParser = require('body-parser');
 
 const port = process.env.PORT || 3000;
 
@@ -21,7 +22,51 @@ app.get('/', function(req, res) {
   res.render('index'); // Serve the frontend
 });
 
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
+app.use(bodyParser.json());
+
+const router = express.Router();
+
+// middleware to use for all requests
+router.use(function(req, res, next) {
+    // do logging
+    //TODO: Authentication here
+    console.log('Request received API v1.01.');
+    next(); // make sure we go to the next routes and don't stop here
+});
+
+router.route('/comments')
+  .post(function(req, res){
+    //TODO: Abstract all the common settings to config file
+    const s3 = new AWS.S3();
+
+    console.log(req.body);
+
+    const comments_params = {
+      Bucket: 'thepollenreport',
+      Key: 'comments.json',
+      Body: JSON.stringify(req.body, null, 4),
+      ACL: 'public-read'
+    };
+
+    s3.putObject(comments_params, function(err, data){
+      if (err) {
+        console.log(err);
+        res.json({message: err});
+      } else {
+        console.log('Successful uploaded data to' + comments_params.Bucket + '/' + comments_params.Key);
+        res.json({message: 'Updated comments.'});
+      }
+    });
+  })
+  .get(function(req, res){
+    res.json({message: 'Return comments here'});
+  });
+
+app.use('/api/v1/', router);
 
 app.get('/scrape', function(req, res){
 
