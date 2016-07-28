@@ -33,7 +33,7 @@ const CommentList = React.createClass({
 });
 const CommentForm = React.createClass({
   getInitialState: function(){
-    return{id: '1', author: '', text: ''};
+    return{author: '', text: ''};
   },
   handleAuthorChange: function(e){
     this.setState({author: e.target.value});
@@ -49,7 +49,7 @@ const CommentForm = React.createClass({
     if (!text || !author){
       return;
     }
-    let id = 6;
+    let id = Date.now();
     this.props.onContentSubmit({id: id.toString(), author: author, text: text});
     this.setState({author: '', text: ''});
   },
@@ -95,14 +95,14 @@ const CommentBox = React.createClass({
     console.log("After with stringify " + JSON.stringify(this.state.data));
 
     this.state.data.push(comment);
-    console.log(this.state.data);
+    console.log("-" + JSON.stringify(this.state.data) + "-");
     console.log("After with stringify " + JSON.stringify(this.state.data));
     $.ajax({
       url: this.props.sendCommentUrl,
       dataType: 'json',
       type: 'POST',
-      data: "{[{'test':'test'}, {'test2':'test2'} ]}",
-      /*[]JSON.stringify(this.state.data),*/
+      data: JSON.stringify(this.state.data),
+      contentType: "application/json",
       success: function(data) {
         console.log(data);
         console.log("After sending " + JSON.stringify(this.state.data));
@@ -133,6 +133,6 @@ ReactDOM.render(
   <CommentBox
     url="https://s3-eu-west-1.amazonaws.com/thepollenreport/comments.json"
     sendCommentUrl="http://localhost:3000/api/v1/comments"
-    pollInterval={100000}/>,
+    pollInterval={2000}/>,
   document.getElementById('comments')
 );
