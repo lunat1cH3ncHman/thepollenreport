@@ -15,3 +15,9 @@
     .disclaimer {
       font-size: 3em;
     }
+    .comments {
+      width: 80%;
+      margin: auto;
+      color: white;
+      text-align: center;
+    }

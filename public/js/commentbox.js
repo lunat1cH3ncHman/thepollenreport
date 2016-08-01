@@ -7,10 +7,7 @@ const Comment = React.createClass({
     const md = new Remarkable();
     return(
       <div className="comment">
-        <h2 className="commentAuthor">
-          {this.props.author}
-        </h2>
-        {md.render(this.props.children.toString())}
+        <p>{this.props.author} says - {this.props.children}</p>
       </div>
     );
   }
@@ -90,13 +87,9 @@ const CommentBox = React.createClass({
   },
   handleCommentSubmit: function(comment){
     console.log(comment);
-    console.log(this.state.data);
-
-    console.log("After with stringify " + JSON.stringify(this.state.data));
-
-    this.state.data.push(comment);
-    console.log("-" + JSON.stringify(this.state.data) + "-");
-    console.log("After with stringify " + JSON.stringify(this.state.data));
+    // Insert new comment and delete last one
+    this.state.data.splice(0, 0, comment);
+    this.state.data.splice(-1, 1);
     $.ajax({
       url: this.props.sendCommentUrl,
       dataType: 'json',
@@ -122,9 +115,9 @@ const CommentBox = React.createClass({
   render: function(){
     return(
       <div className="commentBox">
-        <h1>Comments</h1>
-        <CommentList data={this.state.data}/>
+        <h1>Have your say</h1>
         <CommentForm onContentSubmit={this.handleCommentSubmit}/>
+        <CommentList data={this.state.data}/>
       </div>
     );
   }
