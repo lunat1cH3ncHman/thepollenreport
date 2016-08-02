@@ -10,6 +10,61 @@ const cheerio = require('cheerio');
 const AWS = require('aws-sdk');
 const postgres = require('pg');
 const bodyParser = require('body-parser');
+const cron = require('node-cron');
+
+// Referesh every morning at 06:00
+
+cron.schedule('00 05 * * 0-6', function(){
+  console.log('running a task every minute');
+
+    const url = 'http://www.bbc.co.uk/weather/2643743';
+
+    const json = {count: 0};
+
+    // Use request module to open site
+    request (url, function(error, response, html){
+
+      if(!error){
+        // Use cheerio to interact with site like jQuery
+        const $ = cheerio.load(html);
+
+        json.count = $('.pollen-index .value').text();
+
+        if(!json.count){
+          json.count = 'Low';
+        }
+        json.date = new Date();
+
+        console.log(json);
+
+        // s3 credentials set as evironment vars
+
+        const s3 = new AWS.S3();
+        const bucketName = 'thepollenreport';
+        const keyName = 'pollen.json';
+
+        const params = {
+          Bucket: bucketName,
+          Key: keyName,
+          Body: JSON.stringify(json, null, 4),
+          ACL: 'public-read'
+        };
+
+        s3.putObject(params, function(err, data){
+          if (err) {
+            console.log(err);
+          } else {
+            console.log('Successful uploaded data to' + bucketName + '/' + keyName);
+          }
+        });
+
+        console.log('Updated pollen count.');
+      } else {
+        //TODO: email or other alert
+        console.log(error);
+      }
+    });
+}).start();
 
 const port = process.env.PORT || 3000;
 
@@ -67,56 +122,6 @@ router.route('/comments')
   });
 
 app.use('/api/v1/', router);
-
-app.get('/scrape', function(req, res){
-
-  const url = 'http://www.bbc.co.uk/weather/2643743';
-
-  const json = {count: 0};
-
-  // Use request module to open site
-  request (url, function(error, response, html){
-
-    if(!error){
-      // Use cheerio to interact with site like jQuery
-      const $ = cheerio.load(html);
-
-      json.count = $('.pollen-index .value').text();
-
-      if(!json.count){
-        json.count = 'Low';
-      }
-      json.date = new Date();
-
-      console.log(json);
-
-      // s3 credentials set as evironment vars
-
-      const s3 = new AWS.S3();
-      const bucketName = 'thepollenreport';
-      const keyName = 'pollen.json';
-
-      const params = {
-        Bucket: bucketName,
-        Key: keyName,
-        Body: JSON.stringify(json, null, 4),
-        ACL: 'public-read'
-      };
-
-      s3.putObject(params, function(err, data){
-        if (err) {
-          console.log(err);
-        } else {
-          console.log('Successful uploaded data to' + bucketName + '/' + keyName);
-        }
-      });
-
-      res.send('Updated pollen count.');
-    } else {
-      res.send(error);
-    }
-  });
-});
 
 app.listen(port);
 
