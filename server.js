@@ -70,7 +70,7 @@ app.use('/api/v1/', router);
 
 app.get('/scrape', function(req, res){
 
-  const url = 'http://www.bbc.co.uk/weather/2654675';
+  const url = 'http://www.bbc.co.uk/weather/2643743';
 
   const json = {count: 0};
 
