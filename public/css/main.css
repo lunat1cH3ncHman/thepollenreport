@@ -4,18 +4,18 @@
         background: #e5137a;
     }
     .main {
+        font-family: 'Montserrat', sans-serif;
         width: 80%;
         margin: auto;
         color: white;
         text-align: center;
     }
     .mega {
+        font-family: 'Montserrat', sans-serif;
         font-size: 3em;
     }
-    .disclaimer {
-      font-size: 3em;
-    }
     .comments {
+      font-family: 'Montserrat', sans-serif;
       width: 80%;
       margin: auto;
       color: white;
