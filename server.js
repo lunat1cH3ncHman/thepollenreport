@@ -12,7 +12,7 @@ const postgres = require('pg');
 const bodyParser = require('body-parser');
 const cron = require('node-cron');
 
-// Referesh every morning at 06:00
+// Referesh every day at 05:00
 
 cron.schedule('00 05 * * 0-6', function(){
   console.log('running a task every minute');
