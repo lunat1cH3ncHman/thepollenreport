@@ -2,11 +2,17 @@
   "name": "thepollenreport",
   "version": "1.0.0",
   "private": "true",
+  "main": "server.js",
   "description": "Pollen count forecast and history",
   "author": "Johnny Cullan",
   "dependencies": {
     "aws-sdk": "^2.4.8",
+    "babel-core": "^6.3.17",
+    "babel-loader": "^6.1.0",
+    "babel-plugin-transform-runtime": "^6.12.0",
     "babel-polyfill": "^6.9.1",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.11.1",
     "babel-runtime": "^6.11.6",
     "body-parser": "^1.15.2",
     "cheerio": "^0.20.0",
@@ -17,13 +23,7 @@
     "webpack": "^1.13.1"
   },
   "scripts": {
-    "postinstall": "webpack --config ./webpack-prod.config.js --progress --colors",
+    "postinstall": "webpack -p --config ./webpack.config.js --progress",
     "start": "node server.js"
-  },
-  "devDependencies": {
-    "babel-core": "^6.3.17",
-    "babel-loader": "^6.1.0",
-    "babel-plugin-transform-runtime": "^6.12.0",
-    "babel-preset-react": "^6.11.1"
   }
 }

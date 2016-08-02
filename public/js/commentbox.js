@@ -3,7 +3,6 @@
 /* eslint-disable no-unused-vars*/
 const Comment = React.createClass({
   render:function(){
-    const md = new Remarkable();
     return(
       <div className="comment">
         <p>{this.props.author} says - {this.props.children}</p>
