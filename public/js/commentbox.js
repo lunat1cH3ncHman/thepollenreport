@@ -1,7 +1,6 @@
 //commentbox.js
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars*/
-
 const Comment = React.createClass({
   render:function(){
     const md = new Remarkable();
@@ -86,7 +85,6 @@ const CommentBox = React.createClass({
     });
   },
   handleCommentSubmit: function(comment){
-    console.log(comment);
     // Insert new comment and delete last one
     this.state.data.splice(0, 0, comment);
     this.state.data.splice(-1, 1);
@@ -125,7 +123,7 @@ const CommentBox = React.createClass({
 ReactDOM.render(
   <CommentBox
     url="https://s3-eu-west-1.amazonaws.com/thepollenreport/comments.json"
-    sendCommentUrl="http://localhost:3000/api/v1/comments"
+    sendCommentUrl={COMMENTS_API_URL}
     pollInterval={2000}/>,
   document.getElementById('comments')
 );
