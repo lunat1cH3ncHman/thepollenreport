@@ -37,6 +37,7 @@ const CommentForm = React.createClass({
     this.setState({text: e.target.value});
   },
   handleSubmit: function(e){
+    console.log("test node dev" + process.env.NODE_DEV);
     //Stop browser default submit
     e.preventDefault();
     let author = this.state.author.trim();
