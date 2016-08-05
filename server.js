@@ -5,6 +5,7 @@
 
 
 const express = require('express');
+const cors = require('cors');
 const request = require('request');
 const cheerio = require('cheerio');
 const AWS = require('aws-sdk');
@@ -69,6 +70,8 @@ cron.schedule('00 05 * * 0-6', function(){
 const port = process.env.PORT || 3000;
 
 const app = express();
+
+app.use(cors());
 
 // Define where to look for static files to serve
 app.use(express.static(__dirname + '/public'));
