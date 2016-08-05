@@ -95,6 +95,7 @@ router.use(function(req, res, next) {
 
 router.route('/comments')
   .post(function(req, res){
+    console.log('Post comments');
     //TODO: Abstract all the common settings to config file
     const s3 = new AWS.S3();
 
