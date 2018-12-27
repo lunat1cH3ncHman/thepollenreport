@@ -16,7 +16,7 @@ const cron = require('node-cron');
 // Referesh every day at 05:00
 
 cron.schedule('00 05 * * 0-6', function(){
-  console.log('running a task every minute');
+  console.log('running cron update job');
 
     const url = 'http://www.bbc.co.uk/weather/2643743';
 
